@@ -1,0 +1,74 @@
+.options-list {
+  color: #f5f6fa;
+  background: #2f3640;
+  max-height: 0;
+  width: 50%;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
+  overflow: auto;
+  order: 0;
+  z-index: -10;
+
+  &.active {
+    max-height: 240px;
+    opacity: 0.98;
+    z-index: 1;
+  }
+
+  .option {
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(109, 243, 111);
+      background: #414b57;
+    }
+  }
+}
+
+.select {
+  color: #f5f6fa;
+  text-align: center;
+  background: #2f3640;
+  /* Given to add a 3D look to the select (may be removed if not needed) */
+  border-bottom: 4px solid #00000033;
+  box-shadow: 0 0 0 1px #00000060;
+  /* */
+  border-radius: 8px;
+  width: 50%;
+  height: max-content;
+  margin-left: 5px;
+  padding: 10px 20px;
+  order: 1;
+  cursor: pointer;
+  position: relative;
+  opacity: 0.95;
+
+  &:before {
+    content: "";
+    background: url("/assets/images/down-arrow.png");
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    position: absolute;
+    transform: rotate(90deg);
+    height: 100%;
+    width: 28px;
+    top: 0;
+    left: 0;
+
+    transition: all 0.4s ease-in-out;
+  }
+
+  &:hover {
+    color: rgb(109, 243, 111);
+  }
+}
+
+.options-list.active + .select::before {
+  transform: rotate(-90deg);
+  left: 7px;
+}

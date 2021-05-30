@@ -1,0 +1,16 @@
+<div class="options-list {{ active == true ? 'active' : '' }}">
+  <div
+    *ngFor="let option of options"
+    class="option"
+    id="{{ option }}"
+    (click)="onClick($event)"
+  >
+    {{ option[0].toUpperCase() + option.substring(1) }}
+  </div>
+</div>
+
+<div class="select" (click)="onSelect()">
+  {{
+    selected == "" ? label : selected[0].toUpperCase() + selected.substring(1)
+  }}
+</div>
