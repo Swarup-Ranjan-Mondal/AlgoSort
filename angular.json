@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "visualize-sorting-algos": {
+    "visualize-sorting-algorithms": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,14 +20,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/visualize-sorting-algos",
+            "outputPath": "dist/visualize-sorting-algorithms",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/purple-green.css", "src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "visualize-sorting-algos:build:production"
+              "browserTarget": "visualize-sorting-algorithms:build:production"
             },
             "development": {
-              "browserTarget": "visualize-sorting-algos:build:development"
+              "browserTarget": "visualize-sorting-algorithms:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "visualize-sorting-algos:build"
+            "browserTarget": "visualize-sorting-algorithms:build"
           }
         },
         "test": {
@@ -90,12 +90,12 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": ["./node_modules/@angular/material/prebuilt-themes/purple-green.css", "src/styles.scss"],
             "scripts": []
           }
         }
       }
     }
   },
-  "defaultProject": "visualize-sorting-algos"
+  "defaultProject": "visualize-sorting-algorithms"
 }

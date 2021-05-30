@@ -43,6 +43,13 @@
     display: flex;
     flex-direction: column;
     background: #d8ccaf;
+    overflow: hidden;
+
+    * {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .control-section {
@@ -67,23 +74,119 @@
       }
     }
 
-    .sortingType .active {
-      z-index: 7;
+    .sorting-type {
+      position: absolute;
+      top: 50%;
+      right: 8%;
+      display: flex;
+      width: 170%;
+      font-family: "Roboto", sans-serif;
+      font-size: 0.8rem;
+
+      .active {
+        z-index: 7;
+      }
+    }
+
+    .slider-box {
+      position: absolute;
+      top: 25%;
+      left: 10%;
+      width: 80%;
+      z-index: 1;
+
+      mat-slider {
+        width: 100%;
+      }
+
+      p {
+        margin-top: 70px;
+        text-align: center;
+        opacity: 0.9;
+        color: #023752;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+    }
+
+    #visualize-btn {
+      position: absolute;
+      top: 62%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .message {
+      position: absolute;
+      top: 76%;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      color: rgb(8, 255, 234);
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 6px black;
+
+      &.done {
+        opacity: 0.95;
+
+        &:after {
+          position: absolute;
+          top: 150%;
+          left: 50%;
+          transform: translateX(-50%);
+          content: "";
+          background: url("/assets/images/done.png");
+          background-size: contain;
+          background-repeat: no-repeat;
+          width: 100px;
+          height: 80px;
+        }
+      }
     }
   }
 }
 
-.scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-size: 30px;
+.btn {
+  border: none;
+  outline: none;
+  padding: 1em 1.5em;
+  font-size: 0.9em;
+  font-weight: 700;
+  border-radius: 0.75em;
+  border-bottom: 4px solid #00000054;
+  box-shadow: 0 0 3px 0 #000000c9;
+  cursor: pointer;
+  z-index: 1;
 
-  .ball {
-    position: absolute;
-    border-radius: 50%;
-    background-image: radial-gradient(circle at 65% 30%, #e7d5d5, 28%, #fc0000);
-    box-shadow: inset 0 0 6px 2px rgb(214, 0, 0);
+  &:active {
+    color: rgb(226, 219, 235);
+    border-bottom: 2px solid #00000054;
+    box-shadow: 0 0 2px 0 #000000, 0 1px 3px 0 #000000c7 inset;
   }
+
+  &.btn-primary {
+    color: white;
+    background: #0bc20b;
+
+    &:hover {
+      color: #105a29;
+    }
+  }
+
+  &.btn-disabled {
+    color: white;
+    background: rgb(232, 0, 0, 0.75);
+    box-shadow: -1px 0 2px 0 #000000c9;
+    pointer-events: none;
+  }
+}
+
+.invisible {
+  opacity: 0;
+  z-index: -10;
+}
+
+.disabled {
+  pointer-events: none;
 }

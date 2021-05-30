@@ -1,0 +1,14 @@
+<div class="scene">
+  <app-ball
+    *ngFor="let ball of balls; index as i"
+    [ballNo]="i + 1"
+    [centerX]="ball.centerX"
+    [centerY]="ball.centerY"
+    [radius]="ball.radius"
+  ></app-ball>
+  <app-partition-wall
+    *ngFor="let wall of walls"
+    [centerX]="wall.centerX"
+    [centerY]="wall.centerY"
+  ></app-partition-wall>
+</div>

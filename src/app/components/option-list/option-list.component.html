@@ -5,12 +5,10 @@
     id="{{ option }}"
     (click)="onClick($event)"
   >
-    {{ option[0].toUpperCase() + option.substring(1) }}
+    {{ convertToWordCase(option) }}
   </div>
 </div>
 
-<div class="select" (click)="onSelect()">
-  {{
-    selected == "" ? label : selected[0].toUpperCase() + selected.substring(1)
-  }}
+<div class="select" (click)="onSelect($event)">
+  {{ convertToWordCase(selected == "" ? label : selected) }}
 </div>
