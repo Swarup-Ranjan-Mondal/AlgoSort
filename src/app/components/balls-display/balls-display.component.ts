@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -19,6 +20,9 @@ import { generateUnsortedNumbers } from 'src/app/utils/essentials';
 export let scene: HTMLElement;
 export let walls: WallModel[];
 
+let scaleBalls: (scaleX: number, scaleY: number) => void;
+let conditionalSetMax: (max: number) => void;
+
 @Component({
   selector: 'app-balls-display',
   templateUrl: './balls-display.component.html',
@@ -36,8 +40,47 @@ export class BallsDisplayComponent implements OnInit {
   unsortedNumbers: number[] = [];
   balls: BallModel[] = [];
   walls: WallModel[] = [];
+  scaleX: number = 1;
+  scaleY: number = 1;
+
+  resizeObserver: ResizeObserver = new ResizeObserver(function (
+    entries: ResizeObserverEntry[]
+  ) {
+    /* since we are observing only a single element, 
+      so we access the first element in entries array */
+    const element = entries[0].contentRect;
+
+    conditionalSetMax(Math.floor(element.width / 90));
+    scene.style.transform = `scale(${element.width / scene.clientWidth}, ${
+      element.height / scene.clientHeight
+    })`;
+    scaleBalls(
+      scene.clientWidth / element.width,
+      scene.clientHeight / element.height
+    );
+  });
+
+  constructor(private cd: ChangeDetectorRef) {
+    scaleBalls = (scaleX: number, scaleY: number) => {
+      this.scaleX = scaleX;
+      this.scaleY = scaleY;
+      this.cd.detectChanges();
+    };
+    conditionalSetMax = (max: number) => {
+      if (max >= 2 && max != this.max) {
+        this.max = max;
+        this.changeminmax.emit({
+          min: this.min,
+          max: this.max,
+        });
+      }
+    };
+  }
 
   ngOnInit(): void {
+    this.resizeObserver.observe(
+      <HTMLElement>document.querySelector('.display-section')
+    );
     this.changeminmax.emit({
       min: this.min,
       max: this.max,
@@ -88,10 +131,5 @@ export class BallsDisplayComponent implements OnInit {
     } else if (this.sortingType.includes('selection')) {
       await visualizeSelectionSortWithBalls(this.unsortedNumbers, this.balls);
     }
-
-    // this.sortingComplete = true;
-    // setTimeout(() => {
-    //   this.sortingComplete = false;
-    // }, 3000);
   };
 }

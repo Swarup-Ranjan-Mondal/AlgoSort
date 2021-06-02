@@ -1,6 +1,8 @@
 .scene {
   position: relative;
-  width: 100%;
-  height: 100%;
+  left: calc(50% - var(--scene-width) / 2);
+  top: calc(50% - var(--scene-height) / 2);
+  width: var(--scene-width);
+  height: var(--scene-height);
   font-size: 30px;
 }

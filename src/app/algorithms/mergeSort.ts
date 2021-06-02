@@ -203,7 +203,7 @@ const mergeSortWithBarsUtil = async (
     }
     colorCodes[mid] = 2;
 
-    await sleep(ms / 2);
+    await sleep(ms);
 
     await mergeBars(unsortedNumbers, low, mid, high);
 
@@ -220,32 +220,20 @@ const mergeBars = async (
   mid: number,
   high: number
 ) => {
-  let A: number[] = [];
-  let B: number[] = [];
+  let i = low;
+  let j = mid;
 
-  for (let i = low; i <= mid; i++) {
-    A.push(unsortedNumbers[i]);
-  }
+  while (i < high && j < high) {
+    if (unsortedNumbers[i] <= unsortedNumbers[j + 1]) {
+      i++;
+    } else {
+      const temp = unsortedNumbers[j + 1];
 
-  for (let i = mid + 1; i <= high; i++) {
-    B.push(unsortedNumbers[i]);
-  }
-
-  let i = 0;
-  let j = 0;
-
-  for (var k = low; k <= high; k++) {
-    if (i > A.length - 1) {
-      unsortedNumbers[k] = B[j++];
-    } else if (j > B.length - 1) {
-      unsortedNumbers[k] = A[i++];
-    } else if (A[i] < B[j]) {
-      unsortedNumbers[k] = A[i++];
-    } else if (B[j] < A[i]) {
-      unsortedNumbers[k] = B[j++];
-    } else if (A[i] == B[j]) {
-      unsortedNumbers[k++] = A[i++];
-      unsortedNumbers[k] = B[j++];
+      for (let l = j + 1; l > i; l--) {
+        unsortedNumbers[l] = unsortedNumbers[l - 1];
+      }
+      unsortedNumbers[i] = temp;
+      j++;
     }
 
     drawBars(unsortedNumbers, colorCodes);

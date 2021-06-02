@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { convertToWordCase } from 'src/app/utils/essentials';
 
 @Component({
   selector: 'app-option-list',
@@ -13,6 +14,7 @@ export class OptionListComponent implements OnInit {
 
   active: boolean = false;
   selected: string = '';
+  convertToWordCase: (string: string) => string = convertToWordCase;
 
   ngOnInit(): void {}
 
@@ -38,18 +40,5 @@ export class OptionListComponent implements OnInit {
     } else {
       this.active = false;
     }
-  }
-
-  convertToWordCase(string: string): string {
-    let str = '';
-
-    string.split(' ').forEach((word, index) => {
-      if (index !== 0) {
-        str += ' ';
-      }
-      str += word[0].toUpperCase() + word.substring(1);
-    });
-
-    return str;
   }
 }

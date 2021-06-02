@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { convertToWordCase, sleep } from './utils/essentials';
 
 @Component({
   selector: 'app-root',
@@ -22,18 +23,30 @@ export class AppComponent implements AfterViewInit {
   animationType: string = '';
   sortingType: string = '';
   unsortedNumbers: number[] = [];
+  showFullSidebar: boolean = false;
   disabled: boolean = false;
   sortingComplete: boolean = false;
+  pendingMinMaxChanges: { min: number; max: number } | null = null;
+  convertToWordCase: (string: string) => string = convertToWordCase;
   performTheSortingAlgorithm!: () => Promise<void>;
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.showFullSidebar = true;
+    }, 400);
+  }
 
   onMinMaxChange = (changedValue: any) => {
-    this.min = changedValue.min;
-    this.max = changedValue.max;
-    this.value = this.min;
+    if (!this.disabled) {
+      this.setMinMax(changedValue.min, changedValue.max);
+    } else {
+      this.pendingMinMaxChanges = {
+        min: changedValue.min,
+        max: changedValue.max,
+      };
+    }
   };
 
   onSortingFunctionInit(performTheSortingAlgorithm: () => Promise<void>) {
@@ -53,11 +66,44 @@ export class AppComponent implements AfterViewInit {
     this.sortingType = changedValue;
   };
 
+  onHamburgerClick = (event: MouseEvent) => {
+    this.showFullSidebar = !this.showFullSidebar;
+    this.cd.detectChanges();
+  };
+
   onClick = async (event: MouseEvent) => {
     if (this.sortingType != '') {
       this.disabled = true;
+      this.showFullSidebar = false;
+      await sleep(1000);
       await this.performTheSortingAlgorithm();
       this.disabled = false;
+      this.sortingComplete = true;
+      this.showFullSidebar = true;
+      setTimeout(() => {
+        this.sortingComplete = false;
+        this.showFullSidebar = false;
+      }, 3000);
+
+      if (this.pendingMinMaxChanges) {
+        this.setMinMax(
+          this.pendingMinMaxChanges.min,
+          this.pendingMinMaxChanges.max
+        );
+
+        this.pendingMinMaxChanges = null;
+      }
     }
+  };
+
+  setMinMax = (min: number, max: number) => {
+    this.min = min;
+    this.max = max;
+    if (this.value < this.min) {
+      this.value = this.min;
+    } else if (this.value > this.max) {
+      this.value = this.max;
+    }
+    this.cd.detectChanges();
   };
 }

@@ -18,6 +18,19 @@ export const generateUnsortedNumbers = (
   return array;
 };
 
+export const convertToWordCase = (string: string) => {
+  let str = '';
+
+  string.split(' ').forEach((word, index) => {
+    if (index !== 0) {
+      str += ' ';
+    }
+    str += word[0].toUpperCase() + word.substring(1);
+  });
+
+  return str;
+};
+
 export const sleep = async (ms: number) => {
   await new Promise((resolve) => setTimeout(resolve, ms));
 };

@@ -11,7 +11,7 @@
   z-index: -10;
 
   &.active {
-    max-height: 240px;
+    max-height: 250px;
     opacity: 0.98;
     z-index: 1;
   }
@@ -39,7 +39,7 @@
   width: 50%;
   height: max-content;
   margin-left: 5px;
-  padding: 10px 20px;
+  padding: 5% 20px;
   order: 1;
   cursor: pointer;
   position: relative;
@@ -54,13 +54,13 @@
     background-repeat: no-repeat;
 
     position: absolute;
-    transform: rotate(90deg);
+    transform: rotateY(0deg) rotateZ(90deg);
     height: 100%;
     width: 28px;
     top: 0;
-    left: 0;
+    left: -10px;
 
-    transition: all 0.4s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 
   &:hover {
@@ -69,6 +69,6 @@
 }
 
 .options-list.active + .select::before {
-  transform: rotate(-90deg);
-  left: 7px;
+  transform: rotateY(180deg) rotateZ(90deg);
+  left: 17px;
 }

@@ -1,63 +1,80 @@
-<nav id="nav-bar">
-  <a href="/"><h1>Visualize Sorting Algorithms</h1></a>
-</nav>
-<section class="container">
-  <section class="display-section">
-    <div [ngSwitch]="animationType">
-      <app-balls-display
-        *ngSwitchCase="'ball'"
-        [value]="value"
-        [sortingType]="sortingType"
-        (changeminmax)="onMinMaxChange($event)"
-        (sortingfunctioninit)="onSortingFunctionInit($event)"
-      ></app-balls-display>
-      <app-bars-display
-        *ngSwitchCase="'bar'"
-        [value]="value"
-        [sortingType]="sortingType"
-        (changeminmax)="onMinMaxChange($event)"
-        (sortingfunctioninit)="onSortingFunctionInit($event)"
-      ></app-bars-display>
+<div class="outer-container">
+  <div class="sidebar {{ showFullSidebar ? 'full' : '' }}">
+    <div class="sidebar-strip">
+      <div class="hamburger" (click)="onHamburgerClick($event)">
+        <div class="line" id="line-1"></div>
+        <div class="line" id="line-2"></div>
+        <div class="line" id="line-3"></div>
+      </div>
     </div>
-  </section>
+    <section class="control-section">
+      <app-option-list
+        class="animation-type {{ disabled ? 'disabled' : '' }}"
+        [options]="animationOptions"
+        [label]="'Animation Type'"
+        (change)="onAnimationTypeChange($event)"
+      ></app-option-list>
 
-  <section class="control-section">
-    <app-option-list
-      class="animation-type {{ disabled ? 'disabled' : '' }}"
-      [options]="animationOptions"
-      [label]="'Animation Type'"
-      (change)="onAnimationTypeChange($event)"
-    ></app-option-list>
-
-    <div class="slider-box">
       <mat-slider
-        class="{{ disabled ? 'disabled' : '' }}"
+        class="{{ animationType == '' ? 'hide' : '' }} {{
+          disabled ? 'disabled' : ''
+        }}"
         [min]="min"
         [max]="max"
         [value]="value"
         (input)="onInput($event)"
         thumbLabel
       ></mat-slider>
-      <p>Balls No: {{ value }}</p>
-    </div>
+      <p class="{{ animationType == '' ? 'hide' : '' }}">
+        {{ convertToWordCase(animationType + "s") }} No: {{ value }}
+      </p>
 
-    <app-option-list
-      class="sorting-type {{ disabled ? 'disabled' : '' }}"
-      [options]="sortingOptions"
-      [label]="'Sorting Algorithm'"
-      (change)="onSortingTypeChange($event)"
-    ></app-option-list>
+      <app-option-list
+        class="sorting-type {{ animationType == '' ? 'hide' : '' }}  {{
+          disabled ? 'disabled' : ''
+        }}"
+        [options]="sortingOptions"
+        [label]="'Sorting Algorithm'"
+        (change)="onSortingTypeChange($event)"
+      ></app-option-list>
 
-    <button
-      class="btn btn-{{ !disabled ? 'primary' : 'disabled' }}"
-      id="visualize-btn"
-      (click)="onClick($event)"
-    >
-      Visualize
-    </button>
+      <button
+        class="btn btn-{{ !disabled ? 'primary' : 'disabled' }} {{
+          animationType == '' ? 'hide' : ''
+        }}"
+        id="visualize-btn"
+        (click)="onClick($event)"
+      >
+        Visualize
+      </button>
 
-    <span class="message {{ sortingComplete ? 'done' : '' }}"
-      >Sorting Complete!!</span
-    >
-  </section>
-</section>
+      <span class="message {{ sortingComplete ? 'done' : '' }}"
+        >Sorting Complete!!</span
+      >
+    </section>
+  </div>
+
+  <div class="main-container">
+    <nav>
+      <a href="/"><h1>Visualize Sorting Algorithms</h1></a>
+    </nav>
+    <section class="display-section">
+      <div [ngSwitch]="animationType">
+        <app-balls-display
+          *ngSwitchCase="'ball'"
+          [value]="value"
+          [sortingType]="sortingType"
+          (changeminmax)="onMinMaxChange($event)"
+          (sortingfunctioninit)="onSortingFunctionInit($event)"
+        ></app-balls-display>
+        <app-bars-display
+          *ngSwitchCase="'bar'"
+          [value]="value"
+          [sortingType]="sortingType"
+          (changeminmax)="onMinMaxChange($event)"
+          (sortingfunctioninit)="onSortingFunctionInit($event)"
+        ></app-bars-display>
+      </div>
+    </section>
+  </div>
+</div>

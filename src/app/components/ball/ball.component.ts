@@ -10,6 +10,8 @@ export class BallComponent implements OnInit {
   @Input() radius!: number;
   @Input() centerX!: number;
   @Input() centerY!: number;
+  @Input() scaleX!: number;
+  @Input() scaleY!: number;
 
   widthExpn!: string;
   heightExpn!: string;
