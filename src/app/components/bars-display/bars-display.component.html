@@ -1,1 +1,15 @@
-<canvas width="1125" height="725"></canvas>
+<div
+  class="scene"
+  [ngStyle]="{
+    width: sceneWidth + 'px'
+  }"
+>
+  <app-bar
+    *ngFor="let bar of bars; index as i"
+    [barNo]="i + 1"
+    [value]="bar.value"
+    [width]="bar.width"
+    [height]="bar.height"
+    [color]="bar.color"
+  ></app-bar>
+</div>

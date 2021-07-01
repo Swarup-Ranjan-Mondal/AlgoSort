@@ -1,31 +1,30 @@
 import { scene } from '../components/balls-display/balls-display.component';
-import {
-  canvas,
-  colorCodes,
-} from '../components/bars-display/bars-display.component';
 import BallModel from '../models/BallModel';
 import {
   visualizePutItAside,
   visualizePutItIn,
   visualizeRelocate,
   visualizeSwap,
-} from '../utils/sceneUtils';
-import { drawBars, swap } from '../utils/canvasUtils';
-import { sleep } from '../utils/essentials';
+} from '../utils/ballUtils';
+import { colors, visualizeBarsSwap } from '../utils/barUtils';
+import { map, sleep } from '../utils/essentials';
+import BarModel from '../models/BarModel';
 
+let length: number;
 let ms: number;
 
 export const visualizeHeapSortWithBalls = async (
   unsortedNumbers: number[],
   balls: BallModel[]
 ) => {
-  const w = scene.clientWidth / unsortedNumbers.length;
+  length = unsortedNumbers.length;
+  const w = scene.clientWidth / length;
 
-  for (let i = unsortedNumbers.length - 1; i >= 0; i--) {
-    await heapifyBalls(unsortedNumbers, i, unsortedNumbers.length - 1, balls);
+  for (let i = length - 1; i >= 0; i--) {
+    await heapifyBalls(unsortedNumbers, i, length - 1, balls);
   }
 
-  for (let i = unsortedNumbers.length - 1; i >= 0; i--) {
+  for (let i = length - 1; i >= 0; i--) {
     await visualizePutItAside(
       unsortedNumbers,
       0,
@@ -49,7 +48,7 @@ export const visualizeHeapSortWithBalls = async (
     await heapifyBalls(unsortedNumbers, 0, i - 1, balls);
   }
 
-  for (let i = 0; i < unsortedNumbers.length; i++) {
+  for (let i = 0; i < length; i++) {
     visualizePutItIn(
       unsortedNumbers,
       i,
@@ -91,38 +90,34 @@ const heapifyBalls = async (
   }
 };
 
-export const visualizeHeapSortWithBars = async (unsortedNumbers: number[]) => {
-  let w: number = canvas.width / unsortedNumbers.length;
+export const visualizeHeapSortWithBars = async (
+  unsortedNumbers: number[],
+  bars: BarModel[]
+) => {
+  length = unsortedNumbers.length;
+  ms = Math.floor(map(length, 2, 120, 2700, 1500) / length);
 
-  ms = Math.floor(w);
-
-  for (var i = unsortedNumbers.length - 1; i >= 0; i--) {
-    await heapifyBars(unsortedNumbers, i, unsortedNumbers.length - 1);
-
-    if (i < unsortedNumbers.length - 1) {
-      colorCodes[i + 1] = 1;
-    }
-    colorCodes[i] = 2;
-
-    drawBars(unsortedNumbers, colorCodes);
+  for (let i = length - 1; i >= 0; i--) {
+    await heapifyBars(unsortedNumbers, i, length - 1, bars);
   }
 
-  for (var i = unsortedNumbers.length - 1; i >= 0; i--) {
-    colorCodes[0] = 1;
-    colorCodes[i] = 2;
-    swap(unsortedNumbers, 0, i);
-
+  for (let i = length - 1; i > 0; i--) {
+    bars[0].color = colors[1];
+    bars[i].color = colors[1];
     await sleep(ms);
 
-    colorCodes[i] = 0;
-    colorCodes[0] = 2;
-    drawBars(unsortedNumbers, colorCodes);
+    await visualizeBarsSwap(unsortedNumbers, 0, i, bars, Math.floor(0.8 * ms));
 
-    await heapifyBars(unsortedNumbers, 0, i - 1);
+    bars[0].color = colors[3];
+    bars[i].color = colors[3];
+    await sleep(Math.floor(1.1 * ms));
+
+    bars[0].color = colors[0];
+    bars[i].color = colors[4];
+
+    await heapifyBars(unsortedNumbers, 0, i - 1, bars);
   }
-
-  colorCodes[0] = 0;
-  drawBars(unsortedNumbers, colorCodes);
+  bars[0].color = colors[4];
 
   console.log('Done');
 };
@@ -130,28 +125,64 @@ export const visualizeHeapSortWithBars = async (unsortedNumbers: number[]) => {
 const heapifyBars = async (
   unsortedNumbers: number[],
   index: number,
-  end: number
+  end: number,
+  bars: BarModel[]
 ) => {
-  var i = index;
+  let parent = index;
 
   while (true) {
-    var left = 2 * i + 1,
-      right = 2 * i + 2,
-      child;
+    let left = 2 * parent + 1;
+    let right = 2 * parent + 2;
+    let child;
 
     if (left > end && right > end) {
       return;
-    } else if (unsortedNumbers[left] > unsortedNumbers[right] || right > end) {
+    }
+
+    bars[parent].color = colors[5];
+    bars[left].color = colors[5];
+    if (right < end) {
+      bars[right].color = colors[5];
+    }
+    await sleep(Math.floor(1.3 * ms));
+
+    if (unsortedNumbers[left] > unsortedNumbers[right] || right > end) {
       child = left;
     } else {
       child = right;
     }
 
-    if (unsortedNumbers[i] < unsortedNumbers[child]) {
-      swap(unsortedNumbers, i, child);
-      await sleep(2 * ms);
+    bars[parent].color = colors[1];
+    bars[child].color = colors[1];
+    await sleep(ms);
+
+    if (unsortedNumbers[parent] < unsortedNumbers[child]) {
+      await visualizeBarsSwap(
+        unsortedNumbers,
+        parent,
+        child,
+        bars,
+        Math.floor(0.8 * ms)
+      );
     }
 
-    i = child;
+    bars[parent].color = colors[3];
+    bars[child].color = colors[3];
+    await sleep(Math.floor(1.1 * ms));
+
+    bars[parent].color = colors[5];
+    bars[left].color = colors[5];
+    if (right < end) {
+      bars[right].color = colors[5];
+    }
+    await sleep(Math.floor(1.3 * ms));
+
+    bars[parent].color = colors[0];
+    bars[left].color = colors[0];
+    if (right < end) {
+      bars[right].color = colors[0];
+    }
+
+    parent = child;
   }
 };

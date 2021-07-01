@@ -1,6 +1,9 @@
-canvas {
-  display: block;
+.scene {
   height: 100%;
-  width: 90%;
+  display: flex;
+  padding-bottom: 4%;
   margin: 0 auto;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-evenly;
 }

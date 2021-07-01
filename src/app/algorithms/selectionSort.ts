@@ -1,22 +1,22 @@
-import {
-  canvas,
-  colorCodes,
-} from '../components/bars-display/bars-display.component';
 import BallModel from '../models/BallModel';
-import { visualizeSwap } from '../utils/sceneUtils';
-import { drawBars, swap } from '../utils/canvasUtils';
-import { sleep } from '../utils/essentials';
+import { visualizeSwap } from '../utils/ballUtils';
+import { colors, visualizeBarsSwap } from '../utils/barUtils';
+import { map, sleep } from '../utils/essentials';
+import BarModel from '../models/BarModel';
 
+let length: number;
 let ms: number;
 
 export const visualizeSelectionSortWithBalls = async (
   unsortedNumbers: number[],
   balls: BallModel[]
 ) => {
-  for (let i = 0; i < unsortedNumbers.length - 1; i++) {
+  length = unsortedNumbers.length;
+
+  for (let i = 0; i < length - 1; i++) {
     let minIndex = i;
 
-    for (let j = i + 1; j < unsortedNumbers.length; j++) {
+    for (let j = i + 1; j < length; j++) {
       await sleep(2);
 
       if (unsortedNumbers[j] < unsortedNumbers[minIndex]) {
@@ -30,42 +30,56 @@ export const visualizeSelectionSortWithBalls = async (
   console.log('Done');
 };
 export const visualiseSelectionSortWithBars = async (
-  unsortedNumbers: number[]
+  unsortedNumbers: number[],
+  bars: BarModel[]
 ) => {
-  ms = Math.floor(canvas.width / unsortedNumbers.length);
+  length = unsortedNumbers.length;
+  ms = Math.floor(map(length, 2, 120, 2700, 1000) / length);
 
-  for (var i = 0; i < unsortedNumbers.length; i++) {
-    colorCodes[i] = 1;
-  }
-  drawBars(unsortedNumbers, colorCodes);
+  for (let i = 0; i < length - 1; i++) {
+    bars[i].color = colors[5];
 
-  for (var i = 0; i < unsortedNumbers.length - 1; i++) {
-    var minIndex = i;
-    colorCodes[i] = 2;
-    drawBars(unsortedNumbers, colorCodes);
+    let minIndex = i;
 
-    for (var j = i + 1; j < unsortedNumbers.length; j++) {
-      await sleep(ms / 2);
+    for (let j = i + 1; j < length; j++) {
+      bars[j].color = colors[1];
+      await sleep(Math.floor(0.55 * ms));
 
       if (unsortedNumbers[j] < unsortedNumbers[minIndex]) {
-        colorCodes[minIndex] = 1;
-        colorCodes[j] = 2;
-        drawBars(unsortedNumbers, colorCodes);
+        if (minIndex !== i) {
+          /* Remove the color of the bar at previous min-index */
+          bars[minIndex].color = colors[0];
+        }
 
         minIndex = j;
+      } else {
+        bars[j].color = colors[3];
+        await sleep(Math.floor(0.65 * ms));
       }
+
+      bars[j].color = colors[0];
+      bars[minIndex].color = colors[5];
+      await sleep(ms);
     }
 
-    colorCodes[minIndex] = 1;
-    colorCodes[i] = 2;
-    swap(unsortedNumbers, i, minIndex);
-    await sleep(ms / 2);
-    colorCodes[i] = 0;
-    drawBars(unsortedNumbers, colorCodes);
-  }
+    if (minIndex !== i) {
+      await visualizeBarsSwap(
+        unsortedNumbers,
+        minIndex,
+        i,
+        bars,
+        Math.floor(0.8 * ms)
+      );
+    }
 
-  colorCodes[unsortedNumbers.length - 1] = 0;
-  drawBars(unsortedNumbers, colorCodes);
+    bars[minIndex].color = colors[3];
+    bars[i].color = colors[3];
+    await sleep(Math.floor(1.1 * ms));
+
+    bars[minIndex].color = colors[0];
+    bars[i].color = colors[4];
+  }
+  bars[length - 1].color = colors[4];
 
   console.log('Done');
 };

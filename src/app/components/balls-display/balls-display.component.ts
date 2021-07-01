@@ -91,9 +91,9 @@ export class BallsDisplayComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (
-      scene == undefined ||
-      scene.clientWidth == 0 ||
-      scene.clientHeight == 0
+      scene === undefined ||
+      scene.clientWidth === 0 ||
+      scene.clientHeight === 0
     ) {
       scene = <HTMLElement>document.querySelector('.scene');
     }

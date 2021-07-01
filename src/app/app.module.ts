@@ -10,9 +10,10 @@ import { BallComponent } from './components/ball/ball.component';
 import { BallsDisplayComponent } from './components/balls-display/balls-display.component';
 import { BarsDisplayComponent } from './components/bars-display/bars-display.component';
 import { PartitionWallComponent } from './components/partition-wall/partition-wall.component';
+import { BarComponent } from './components/bar/bar.component';
 
 @NgModule({
-  declarations: [AppComponent, OptionListComponent, BallComponent, BallsDisplayComponent, BarsDisplayComponent, PartitionWallComponent],
+  declarations: [AppComponent, OptionListComponent, BallComponent, BallsDisplayComponent, BarsDisplayComponent, PartitionWallComponent, BarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,22 +1,21 @@
 import { scene } from '../components/balls-display/balls-display.component';
-import {
-  canvas,
-  colorCodes,
-} from '../components/bars-display/bars-display.component';
 import BallModel from '../models/BallModel';
-import { visualizePutItAside, visualizePutItIn } from '../utils/sceneUtils';
-import { drawBars } from '../utils/canvasUtils';
-import { sleep } from '../utils/essentials';
+import { visualizePutItAside, visualizePutItIn } from '../utils/ballUtils';
+import { colors, visualizeBarsSwap } from '../utils/barUtils';
+import { map, sleep } from '../utils/essentials';
+import BarModel from '../models/BarModel';
 
+let length: number;
 let ms: number;
 
 export const visualizeInsertionSortWithBalls = async (
   unsortedNumbers: number[],
   balls: BallModel[]
 ) => {
-  const w = scene.clientWidth / unsortedNumbers.length;
+  length = unsortedNumbers.length;
+  const w = scene.clientWidth / length;
 
-  for (let i = 1; i < unsortedNumbers.length; i++) {
+  for (let i = 1; i < length; i++) {
     let key = unsortedNumbers[i];
     let j = i - 1;
 
@@ -58,40 +57,41 @@ export const visualizeInsertionSortWithBalls = async (
 };
 
 export const visualizeInsertionSortWithBars = async (
-  unsortedNumbers: number[]
+  unsortedNumbers: number[],
+  bars: BarModel[]
 ) => {
-  ms = Math.floor(canvas.width / unsortedNumbers.length);
+  length = unsortedNumbers.length;
+  ms = Math.floor(map(length, 2, 120, 2800, 1000) / length);
 
-  for (var i = 1; i < unsortedNumbers.length; i++) {
-    let key = unsortedNumbers[i];
-    let j = i - 1;
+  for (var i = 1; i < length; i++) {
+    let j = i;
 
-    colorCodes[i] = 2;
-    drawBars(unsortedNumbers, colorCodes);
+    while (j > 0) {
+      bars[j - 1].color = colors[1];
+      bars[j].color = colors[1];
+      await sleep(ms);
 
-    await sleep(ms);
+      if (unsortedNumbers[j - 1] > unsortedNumbers[j]) {
+        await visualizeBarsSwap(
+          unsortedNumbers,
+          j - 1,
+          j,
+          bars,
+          Math.floor(0.8 * ms)
+        );
+      }
 
-    while (j >= 0 && unsortedNumbers[j] > key) {
-      unsortedNumbers[j + 1] = unsortedNumbers[j];
+      bars[j - 1].color = colors[3];
+      bars[j].color = colors[3];
+      await sleep(Math.floor(1.1 * ms));
 
-      colorCodes[j] = 1;
-      drawBars(unsortedNumbers, colorCodes);
+      bars[j - 1].color = colors[0];
+      bars[j].color = i !== length - 1 ? colors[0] : colors[4];
 
-      await sleep(ms / 2);
       j--;
     }
-
-    colorCodes[i] = 1;
-    unsortedNumbers[j + 1] = key;
-    colorCodes[j + 1] = 2;
-    drawBars(unsortedNumbers, colorCodes);
-
-    await sleep(3 * ms);
-    for (j = 0; j < colorCodes.length; j++) {
-      colorCodes[j] = 0;
-    }
   }
+  bars[0].color = colors[4];
 
-  drawBars(unsortedNumbers, colorCodes);
   console.log('Done');
 };
