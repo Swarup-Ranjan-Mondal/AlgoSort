@@ -43,9 +43,14 @@ export class BarsDisplayComponent implements OnInit {
   resizeObserver: ResizeObserver = new ResizeObserver(function (
     entries: ResizeObserverEntry[]
   ) {
-    /* since we are observing only a single element, 
+    /* Since we are observing only a single element, 
       so we access the first element in entries array */
+
     const element = entries[0].contentRect;
+
+    /* Depending on the screen size, the max value of the slider changes 
+    to make sure the visible portion only displays that much contents as much 
+    it can fit. */
 
     const minValue = 25;
     const maxValue = 120;
@@ -74,16 +79,24 @@ export class BarsDisplayComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /* The display-section is setted as a resizeObserver so that 
+    whenever there screen size changes, the display adjust itself 
+    to show the contents properly. */
+
     this.resizeObserver.observe(this.displaySection);
     this.changeminmax.emit({
       min: this.min,
       max: this.max,
     });
-    this.sortingfunctioninit.emit(this.performTheSortingAlgorithms);
+    this.sortingfunctioninit.emit(this.performTheSortingAlgorithm);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.value && this.value >= this.min && this.value <= this.max) {
+      /* Whenever there is change in the value of the slider, an 
+      array of unsorted numbers is generated and they are visually 
+      represened as bars on the screen. */
+
       max = Math.floor((this.value + 6) * 1.5);
       this.unsortedNumbers = generateUnsortedNumbers(this.value, 6, max);
       this.showNumbersAsBars();
@@ -107,6 +120,9 @@ export class BarsDisplayComponent implements OnInit {
   }
 
   resizeTheBars(): void {
+    /* Resizing the bars, whenever the dimensions of the display 
+    screen changes. */
+
     const length = this.bars.length;
     const [barWidth, hp, gap] = this.getBarsProperties(length);
 
@@ -120,6 +136,9 @@ export class BarsDisplayComponent implements OnInit {
   getBarsProperties(
     barsNumber: number
   ): [barWidth: number, hp: number, gap: number] {
+    /* Returns the properties of the bars i.e. bar width, height 
+    proportion (hp) and gap between the bars. */
+
     const gap = ((barsNumber: number) => {
       const minGapValue = 4;
       const maxGapValue = 20;
@@ -140,7 +159,7 @@ export class BarsDisplayComponent implements OnInit {
     return [barWidth, hp, gap];
   }
 
-  performTheSortingAlgorithms = async () => {
+  performTheSortingAlgorithm = async () => {
     for (let i = 0; i < this.bars.length; i++) {
       this.bars[i].color = colors[0];
     }

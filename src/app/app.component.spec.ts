@@ -16,10 +16,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'visualize-sorting-algorithms'`, () => {
+  it(`should have as title 'algosort'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('visualize-sorting-algorithms');
+    expect(app.title).toEqual('algosort');
   });
 
   it('should render title', () => {
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.content span').textContent).toContain(
-      'visualize-sorting-algorithms app is running!'
+      'algosort app is running!'
     );
   });
 });

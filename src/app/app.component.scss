@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Oswald:wght@600&display=swap");
+
 .outer-container {
   height: 100vh;
   width: 100vw;
@@ -122,8 +124,11 @@
 
     h1 {
       font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.022em;
+      font-family: "Oswald", sans-serif;
       color: rgba(255, 255, 255, 0.85);
-      text-shadow: 1px 1px 4px rgb(177, 121, 2);
+      text-shadow: 1px 1px 2px rgb(177, 121, 2);
 
       @media only screen and (max-width: 690px) {
         font-size: 24px;
@@ -136,7 +141,7 @@
 
     h1:active {
       color: rgba(4, 199, 124, 0.95);
-      text-shadow: -1px -1px 3px rgb(138, 95, 2);
+      text-shadow: -1px -1px 2px rgb(138, 95, 2);
     }
   }
 
@@ -166,8 +171,9 @@
     right: calc(50% - var(--sidebar-strip-width) / 2);
     width: max(190%, 20.4em);
     transform: translateX(25%);
-    font-family: "Roboto", sans-serif;
     font-size: 0.8rem;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
 
     .active {
       z-index: 9;
@@ -202,8 +208,9 @@
     right: calc(50% - var(--sidebar-strip-width) / 2);
     width: max(190%, 20.4em);
     transform: translateX(25%);
-    font-family: "Roboto", sans-serif;
     font-size: 0.8rem;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
 
     .active {
       z-index: 7;

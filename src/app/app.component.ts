@@ -33,12 +33,18 @@ export class AppComponent implements AfterViewInit {
   constructor(private cd: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
+    /* The sidebar will slide in when the web app has loaded */
+
     setTimeout(() => {
       this.showFullSidebar = true;
     }, 400);
   }
 
   onMinMaxChange = (changedValue: any) => {
+    /* If none of the sorting algorithms are in action then it will 
+    change the min and max values of the slider instantaneously, else 
+    it will wait for the algorithm to complete and then will do the change */
+
     if (!this.disabled) {
       this.setMinMax(changedValue.min, changedValue.max);
     } else {
@@ -72,6 +78,12 @@ export class AppComponent implements AfterViewInit {
   };
 
   onClick = async (event: MouseEvent) => {
+    /* If sorting type is not selected, nothing to be done when the 
+    'Visualize' button is clicked. But, if it is selected then all the 
+    controls are disabled and sidebar is closed. After performing the 
+    algorithm, the pending work of changing the min and max values of the 
+    slider is done by calling setMinMax function. */
+
     if (this.sortingType != '') {
       this.disabled = true;
       this.showFullSidebar = false;

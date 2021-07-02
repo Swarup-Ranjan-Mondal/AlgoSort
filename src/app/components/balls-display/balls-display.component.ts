@@ -46,9 +46,15 @@ export class BallsDisplayComponent implements OnInit {
   resizeObserver: ResizeObserver = new ResizeObserver(function (
     entries: ResizeObserverEntry[]
   ) {
-    /* since we are observing only a single element, 
+    /* Since we are observing only a single element, 
       so we access the first element in entries array */
+
     const element = entries[0].contentRect;
+
+    /* Depending on the screen size, the scene and the balls are scaled 
+    to ensure the contents are displayed accurately. Also, the max value of 
+    the slider changes to make sure the visible portion only displays that much 
+    contents as much it can fit. */
 
     conditionalSetMax(Math.floor(element.width / 90));
     scene.style.transform = `scale(${element.width / scene.clientWidth}, ${
@@ -78,6 +84,10 @@ export class BallsDisplayComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /* The display-section is setted as a resizeObserver so that 
+    whenever there screen size changes, the display adjust itself 
+    to show the contents properly. */
+
     this.resizeObserver.observe(
       <HTMLElement>document.querySelector('.display-section')
     );
@@ -85,7 +95,7 @@ export class BallsDisplayComponent implements OnInit {
       min: this.min,
       max: this.max,
     });
-    this.sortingfunctioninit.emit(this.performTheSortingAlgorithms);
+    this.sortingfunctioninit.emit(this.performTheSortingAlgorithm);
     walls = this.walls;
   }
 
@@ -99,6 +109,10 @@ export class BallsDisplayComponent implements OnInit {
     }
 
     if (changes.value && this.value >= this.min && this.value <= this.max) {
+      /* Whenever there is change in the value of the slider, an 
+      array of unsorted numbers is generated and they are visually 
+      represened as balls on the screen. */
+
       this.unsortedNumbers = generateUnsortedNumbers(this.value, 10, 30);
       this.showNumbersAsBalls();
     }
@@ -117,7 +131,7 @@ export class BallsDisplayComponent implements OnInit {
     });
   };
 
-  performTheSortingAlgorithms = async () => {
+  performTheSortingAlgorithm = async () => {
     if (this.sortingType.includes('bubble')) {
       await visualizeBubbleSortWithBalls(this.unsortedNumbers, this.balls);
     } else if (this.sortingType.includes('heap')) {
