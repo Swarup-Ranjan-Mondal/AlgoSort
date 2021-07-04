@@ -45,9 +45,7 @@
   position: relative;
   opacity: 0.95;
 
-  &:before {
-    content: "";
-    background: url("/assets/images/down-arrow.png");
+  .arrow {
     filter: invert(100%);
     -webkit-filter: invert(100%);
     background-size: contain;
@@ -61,6 +59,7 @@
     left: -10px;
 
     transition: all 0.3s ease-in-out;
+    pointer-events: none;
   }
 
   &:hover {
@@ -68,7 +67,7 @@
   }
 }
 
-.options-list.active + .select::before {
+.options-list.active + .select .arrow {
   transform: rotateY(180deg) rotateZ(90deg);
   left: 17px;
 }

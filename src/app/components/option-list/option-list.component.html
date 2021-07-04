@@ -8,5 +8,11 @@
 </div>
 
 <div class="select" (click)="onSelect($event)">
+  <div
+    class="arrow"
+    [ngStyle]="{
+      backgroundImage: 'url(' + siteUrl + '/assets/images/down-arrow.png' + ')'
+    }"
+  ></div>
   {{ convertToWordCase(selected == "" ? label : selected) }}
 </div>

@@ -14,9 +14,12 @@ export class OptionListComponent implements OnInit {
 
   active: boolean = false;
   selected: string = '';
+  siteUrl: string = '';
   convertToWordCase: (string: string) => string = convertToWordCase;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.siteUrl = window.location.href;
+  }
 
   onMouseDown(event: MouseEvent): void {
     this.active = false;
