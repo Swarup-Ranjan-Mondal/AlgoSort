@@ -1,27 +1,75 @@
 # AlgoSort
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+---
 
-## Development server
+This App is built with **[Angular](https://angular.io)** and is meant for visualizing all popular sorting algorithms. It is capable of showing the sorting process in action not only through _`bar animation`_ but also through _`ball animation`_.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+**_See a demo here:_** https://swarup-ranjan-mondal.github.io/AlgoSort/
 
-## Code scaffolding
+### Animations supported:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+For visualizing the sorting algorithms, this app provides two types of animation which are given below:
 
-## Build
+| Animation Type |
+| :------------: |
+|      Ball      |
+|      Bar       |
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Algorithms supported:
 
-## Running unit tests
+Currently, the app supports the following sorting algorithms:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+| Sorting Algorithm |
+| ----------------- |
+| Bubble Sort       |
+| Heap Sort         |
+| Insertion Sort    |
+| Merge Sort        |
+| Quick Sort        |
+| Selection Sort    |
 
-## Running end-to-end tests
+## Usage
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
+---
 
-## Further help
+If you want to run this app locally, then clone this repo using the command:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```sh
+git clone https://github.com/Swarup-Ranjan-Mondal/AlgoSort.git
+```
+
+Move inside the subfolder `AlgoSort` with the command
+
+```sh
+cd AlgoSort
+```
+
+#### Install
+
+Install the dependencies and devDependencies with the command:
+
+```sh
+npm install
+```
+
+**Note: [Angular CLI](https://github.com/angular/angular-cli)** requires [Node.js](https://nodejs.org/) version of either _v10.13_ or _v12.0_. So, make sure that either of the above mentioned versions of node is installed on your pc.
+
+#### Run
+
+Build and run the app locally with the command:
+
+```sh
+ng serve
+```
+
+The above command runs the app at `http://localhost:4200/`. So, open the browser to see the app run. The app will automatically reload if you change any of the source files.
+
+#### Build
+
+For production build run the command:
+
+```sh
+ng build --configuration production
+```
+
+This will build artifacts for production and will stored them in the `dist/` directory.
