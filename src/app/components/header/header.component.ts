@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  siteUrl: string = '';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.siteUrl = window.location.href;
+  }
 }
