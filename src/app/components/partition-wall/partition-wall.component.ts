@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-partition-wall',
+  selector: 'partition-wall',
   templateUrl: './partition-wall.component.html',
   styleUrls: ['./partition-wall.component.scss'],
 })
-export class PartitionWallComponent implements AfterViewInit {
+export class PartitionWallComponent implements OnInit {
   @Input() centerX!: number;
   @Input() centerY!: number;
 
@@ -15,7 +15,7 @@ export class PartitionWallComponent implements AfterViewInit {
   leftExpn!: string;
   topExpn!: string;
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.leftExpn = `${this.centerX}px - ${this.widthInPixels / 2}px`;
     this.topExpn = `${this.centerY}px - ${this.heightInEm / 2}em`;
   }

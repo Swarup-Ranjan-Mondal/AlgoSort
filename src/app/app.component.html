@@ -1,19 +1,30 @@
 <div class="outer-container">
-  <div class="sidebar {{ showFullSidebar ? 'full' : '' }}">
+  <aside class="sidebar {{ showFullSidebar ? 'full' : '' }}">
     <div class="sidebar-strip">
-      <div class="hamburger" (click)="onHamburgerClick($event)">
-        <div class="line" id="line-1"></div>
-        <div class="line" id="line-2"></div>
-        <div class="line" id="line-3"></div>
-      </div>
+      <div
+        class="hamburger"
+        [isCrossed]="showFullSidebar"
+        (click)="onHamburgerClick($event)"
+      ></div>
     </div>
     <section class="control-section">
-      <app-option-list
-        class="animation-type {{ disabled ? 'disabled' : '' }}"
+      <option-list
+        id="animation-type"
+        class="{{ disabled ? 'disabled' : '' }}"
         [options]="animationOptions"
         [label]="'Animation Type'"
         (change)="onAnimationTypeChange($event)"
-      ></app-option-list>
+      ></option-list>
+
+      <button
+        id="randomize-btn"
+        class="btn btn-{{ !disabled ? 'primary' : 'warning' }} {{
+          animationType == '' ? 'hide' : ''
+        }}"
+        (click)="onRandomizeButtonClick($event)"
+      >
+        Randomize
+      </button>
 
       <mat-slider
         class="{{ animationType == '' ? 'hide' : '' }} {{
@@ -29,52 +40,53 @@
         {{ convertToWordCase(animationType + "s") }} No: {{ value }}
       </p>
 
-      <app-option-list
-        class="sorting-type {{ animationType == '' ? 'hide' : '' }}  {{
+      <option-list
+        id="sorting-type"
+        class="{{ animationType == '' ? 'hide' : '' }}  {{
           disabled ? 'disabled' : ''
         }}"
         [options]="sortingOptions"
         [label]="'Sorting Algorithm'"
         (change)="onSortingTypeChange($event)"
-      ></app-option-list>
+      ></option-list>
 
       <button
-        class="btn btn-{{ !disabled ? 'primary' : 'disabled' }} {{
+        id="visualize-btn"
+        class="btn btn-{{ !disabled ? 'success' : 'danger' }} {{
           animationType == '' ? 'hide' : ''
         }}"
-        id="visualize-btn"
-        (click)="onClick($event)"
+        (click)="onVisualizeButtonClick($event)"
       >
         Visualize
       </button>
 
-      <span class="message {{ sortingComplete ? 'done' : '' }}"
+      <span class="message {{ sortingComplete ? 'show' : '' }}"
         >Sorting Complete!!</span
       >
     </section>
-  </div>
+  </aside>
 
-  <div class="main-container">
-    <nav>
-      <a href="/"><h1>AlgoSort</h1></a>
-    </nav>
+  <main class="main-container">
+    <header class="header"></header>
     <section class="display-section">
       <div [ngSwitch]="animationType">
-        <app-balls-display
+        <balls-display
           *ngSwitchCase="'ball'"
           [value]="value"
           [sortingType]="sortingType"
           (changeminmax)="onMinMaxChange($event)"
+          (randomizefunctioninit)="onRandomizeFunctionInit($event)"
           (sortingfunctioninit)="onSortingFunctionInit($event)"
-        ></app-balls-display>
-        <app-bars-display
+        ></balls-display>
+        <bars-display
           *ngSwitchCase="'bar'"
           [value]="value"
           [sortingType]="sortingType"
           (changeminmax)="onMinMaxChange($event)"
+          (randomizefunctioninit)="onRandomizeFunctionInit($event)"
           (sortingfunctioninit)="onSortingFunctionInit($event)"
-        ></app-bars-display>
+        ></bars-display>
       </div>
     </section>
-  </div>
+  </main>
 </div>

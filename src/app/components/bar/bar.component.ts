@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'app-bar',
+  selector: 'bar',
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss'],
 })

@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter&family=Oswald:wght@600&display=swap");
-
 .outer-container {
   height: 100vh;
   width: 100vw;
@@ -44,27 +42,7 @@
         position: absolute;
         left: 50%;
         top: calc(var(--sidebar-strip-width) / 2);
-        width: calc(var(--sidebar-strip-width) * 0.6);
-        height: calc(var(--sidebar-strip-width) * 0.4);
         transform: translate(-50%, -50%);
-
-        .line {
-          position: absolute;
-          top: calc(50% - 4px / 2);
-          width: 100%;
-          height: 4px;
-          background: #292929cc;
-          border-radius: 2px;
-          transition: all 0.5s ease-in-out;
-        }
-
-        #line-1 {
-          transform: translateY(-200%);
-        }
-
-        #line-3 {
-          transform: translateY(200%);
-        }
       }
     }
 
@@ -80,21 +58,6 @@
       & + .main-container {
         transform: translateX(min(var(--sidebar-strip-width) - 15vw, -120px));
       }
-
-      .sidebar-strip .hamburger {
-        #line-1 {
-          transform: translateY(0%) rotate(-135deg);
-        }
-
-        #line-2 {
-          transform: translateX(-100%);
-          background: transparent;
-        }
-
-        #line-3 {
-          transform: translateY(0%) rotate(135deg);
-        }
-      }
     }
   }
 }
@@ -103,46 +66,9 @@
   display: flex;
   flex-direction: column;
 
-  nav {
+  .header {
     height: 8%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background: linear-gradient(
-      to right,
-      rgb(15, 32, 39),
-      rgb(32, 58, 67),
-      rgb(44, 83, 100)
-    );
-    border-bottom: 1px solid black;
-    position: relative;
-
-    a {
-      text-decoration: none;
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.022em;
-      font-family: "Oswald", sans-serif;
-      color: rgba(255, 255, 255, 0.85);
-      text-shadow: 1px 1px 2px rgb(177, 121, 2);
-
-      @media only screen and (max-width: 690px) {
-        font-size: 24px;
-      }
-    }
-
-    h1:hover {
-      color: rgb(109, 243, 111);
-    }
-
-    h1:active {
-      color: rgba(4, 199, 124, 0.95);
-      text-shadow: -1px -1px 2px rgb(138, 95, 2);
-    }
+    width: 100%;
   }
 
   .display-section {
@@ -164,7 +90,7 @@
 .control-section {
   position: relative;
 
-  .animation-type {
+  #animation-type {
     position: absolute;
     display: flex;
     top: 12%;
@@ -180,9 +106,16 @@
     }
   }
 
+  #randomize-btn {
+    position: absolute;
+    top: 26%;
+    left: calc(50% + var(--sidebar-strip-width) / 2);
+    transform: translateX(-50%);
+  }
+
   mat-slider {
     position: absolute;
-    top: 27%;
+    top: 40%;
     right: calc(50% - var(--sidebar-strip-width) / 2);
     width: 100%;
     transform: translate(50%);
@@ -190,7 +123,7 @@
 
   p {
     position: absolute;
-    top: 36%;
+    top: 49%;
     right: calc(50% - var(--sidebar-strip-width) / 2);
     width: 100%;
     transform: translate(50%);
@@ -201,10 +134,10 @@
     opacity: 0.9;
   }
 
-  .sorting-type {
+  #sorting-type {
     position: absolute;
     display: flex;
-    top: 46%;
+    top: 58%;
     right: calc(50% - var(--sidebar-strip-width) / 2);
     width: max(190%, 20.4em);
     transform: translateX(25%);
@@ -219,74 +152,26 @@
 
   #visualize-btn {
     position: absolute;
-    top: 61%;
+    top: 72%;
     left: calc(50% + var(--sidebar-strip-width) / 2);
     transform: translateX(-50%);
   }
 
   .message {
     position: absolute;
-    top: 74%;
+    top: 86%;
     left: calc(50% + var(--sidebar-strip-width) / 2);
     transform: translateX(-50%);
     text-align: center;
     font-size: 1.4rem;
     font-weight: 600;
-    color: rgb(8, 255, 234);
+    color: #08ffea;
     text-shadow: 1px 1px 6px black;
     opacity: 0;
 
-    &.done {
+    &.show {
       opacity: 0.95;
-
-      &:after {
-        position: absolute;
-        top: 150%;
-        left: 50%;
-        transform: translateX(-50%);
-        content: "";
-        background: url("/assets/images/done.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        width: 100px;
-        height: 80px;
-      }
     }
-  }
-}
-
-.btn {
-  border: none;
-  outline: none;
-  padding: 1em max(16%, 1.5em);
-  font-size: 0.9em;
-  font-weight: 700;
-  border-radius: 8px;
-  border-bottom: 4px solid #00000054;
-  box-shadow: 0 0 3px 0 #000000c9;
-  cursor: pointer;
-  z-index: 1;
-
-  &:active {
-    color: rgb(226, 219, 235);
-    border-bottom: 2px solid #00000054;
-    box-shadow: 0 0 2px 0 #000000, 0 1px 3px 0 #000000c7 inset;
-  }
-
-  &.btn-primary {
-    color: white;
-    background: #0bc20b;
-
-    &:hover {
-      color: #105a29;
-    }
-  }
-
-  &.btn-disabled {
-    color: white;
-    background: rgb(232, 0, 0, 0.75);
-    box-shadow: -1px 0 2px 0 #000000c9;
-    pointer-events: none;
   }
 }
 

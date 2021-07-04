@@ -15,13 +15,13 @@ import { visualiseQuickSortWithBars } from 'src/app/algorithms/quickSort';
 import { visualiseSelectionSortWithBars } from 'src/app/algorithms/selectionSort';
 import BarModel from 'src/app/models/BarModel';
 import { colors } from 'src/app/utils/barUtils';
-import { generateUnsortedNumbers } from 'src/app/utils/essentials';
+import { generateRandomizedArray } from 'src/app/utils/essentials';
 
-let max: number;
+let rangeMax: number;
 let conditionalSetMax: (max: number) => void;
 
 @Component({
-  selector: 'app-bars-display',
+  selector: 'bars-display',
   templateUrl: './bars-display.component.html',
   styleUrls: ['./bars-display.component.scss'],
 })
@@ -30,11 +30,12 @@ export class BarsDisplayComponent implements OnInit {
   @Input() sortingType!: string;
 
   @Output() changeminmax = new EventEmitter<any>();
+  @Output() randomizefunctioninit = new EventEmitter<() => void>();
   @Output() sortingfunctioninit = new EventEmitter<() => Promise<void>>();
 
   min: number = 2;
   max: number = 120;
-  unsortedNumbers: number[] = [];
+  array: number[] = [];
   bars: BarModel[] = [];
 
   displaySection!: HTMLElement;
@@ -54,10 +55,10 @@ export class BarsDisplayComponent implements OnInit {
 
     const minValue = 25;
     const maxValue = 120;
-    const maxToBeSetted = Math.round(
+    const maxToBeSet = Math.round(
       minValue + ((element.width - 320) * (maxValue - minValue)) / (1480 - 320)
     );
-    conditionalSetMax(maxToBeSetted);
+    conditionalSetMax(maxToBeSet);
   });
 
   constructor(private cd: ChangeDetectorRef) {
@@ -88,6 +89,7 @@ export class BarsDisplayComponent implements OnInit {
       min: this.min,
       max: this.max,
     });
+    this.randomizefunctioninit.emit(this.generateNewRandomizedArray);
     this.sortingfunctioninit.emit(this.performTheSortingAlgorithm);
   }
 
@@ -97,19 +99,19 @@ export class BarsDisplayComponent implements OnInit {
       array of unsorted numbers is generated and they are visually 
       represened as bars on the screen. */
 
-      max = Math.floor((this.value + 6) * 1.5);
-      this.unsortedNumbers = generateUnsortedNumbers(this.value, 6, max);
-      this.showNumbersAsBars();
+      rangeMax = Math.floor((this.value + 6) * 1.5);
+      this.array = generateRandomizedArray(this.value, 6, rangeMax);
+      this.showArrayElementsAsBars();
     }
   }
 
-  showNumbersAsBars(): void {
-    const length = this.unsortedNumbers.length;
+  showArrayElementsAsBars(): void {
+    const length = this.array.length;
     const [barWidth, hp, gap] = this.getBarsProperties(length);
 
     this.bars = [];
     this.sceneWidth = barWidth * length + gap * (length + 1);
-    this.unsortedNumbers.forEach((number) => {
+    this.array.forEach((number) => {
       this.bars.push({
         value: number,
         width: barWidth,
@@ -154,10 +156,15 @@ export class BarsDisplayComponent implements OnInit {
       this.displaySection.clientWidth * 0.9 - gap * (barsNumber + 1);
     const barWidth =
       barsNumber > 12 ? availableWidth / barsNumber : availableWidth / 12;
-    const hp = (this.displaySection.clientHeight * 0.9 - 20) / max;
+    const hp = (this.displaySection.clientHeight * 0.9 - 20) / rangeMax;
 
     return [barWidth, hp, gap];
   }
+
+  generateNewRandomizedArray = () => {
+    this.array = generateRandomizedArray(this.value, 6, rangeMax);
+    this.showArrayElementsAsBars();
+  };
 
   performTheSortingAlgorithm = async () => {
     for (let i = 0; i < this.bars.length; i++) {
@@ -165,17 +172,17 @@ export class BarsDisplayComponent implements OnInit {
     }
 
     if (this.sortingType.includes('bubble')) {
-      await visualizeBubbleSortWithBars(this.unsortedNumbers, this.bars);
+      await visualizeBubbleSortWithBars(this.array, this.bars);
     } else if (this.sortingType.includes('heap')) {
-      await visualizeHeapSortWithBars(this.unsortedNumbers, this.bars);
+      await visualizeHeapSortWithBars(this.array, this.bars);
     } else if (this.sortingType.includes('insertion')) {
-      await visualizeInsertionSortWithBars(this.unsortedNumbers, this.bars);
+      await visualizeInsertionSortWithBars(this.array, this.bars);
     } else if (this.sortingType.includes('merge')) {
-      await visualiseMergeSortWithBars(this.unsortedNumbers, this.bars);
+      await visualiseMergeSortWithBars(this.array, this.bars);
     } else if (this.sortingType.includes('quick')) {
-      await visualiseQuickSortWithBars(this.unsortedNumbers, this.bars);
+      await visualiseQuickSortWithBars(this.array, this.bars);
     } else if (this.sortingType.includes('selection')) {
-      await visualiseSelectionSortWithBars(this.unsortedNumbers, this.bars);
+      await visualiseSelectionSortWithBars(this.array, this.bars);
     }
   };
 }

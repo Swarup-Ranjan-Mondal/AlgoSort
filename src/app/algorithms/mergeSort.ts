@@ -14,17 +14,17 @@ let length: number;
 let ms: number;
 
 export const visualizeMergeSortWithBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   balls: BallModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
 
-  await mergeSortWithBallsUtil(unsortedNumbers, 0, length - 1, balls);
+  await mergeSortWithBallsUtil(array, 0, length - 1, balls);
   console.log('Done');
 };
 
 const mergeSortWithBallsUtil = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   balls: BallModel[]
@@ -34,18 +34,18 @@ const mergeSortWithBallsUtil = async (
     drawPartitionWall(length, mid);
     await sleep(5);
 
-    await mergeSortWithBallsUtil(unsortedNumbers, low, mid, balls);
-    await mergeSortWithBallsUtil(unsortedNumbers, mid + 1, high, balls);
+    await mergeSortWithBallsUtil(array, low, mid, balls);
+    await mergeSortWithBallsUtil(array, mid + 1, high, balls);
 
     removePartitionWall(length, mid);
     await sleep(5);
 
-    await mergeBalls(unsortedNumbers, low, mid, high, balls);
+    await mergeBalls(array, low, mid, high, balls);
   }
 };
 
 const mergeBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   mid: number,
   high: number,
@@ -56,11 +56,11 @@ const mergeBalls = async (
   const C: number[] = [];
 
   for (let i = low; i <= mid; i++) {
-    A.push(unsortedNumbers[i]);
+    A.push(array[i]);
   }
 
   for (let i = mid + 1; i <= high; i++) {
-    B.push(unsortedNumbers[i]);
+    B.push(array[i]);
   }
 
   const w: number = scene.clientWidth / (high - low + 1);
@@ -73,7 +73,7 @@ const mergeBalls = async (
     if (i > A.length - 1) {
       C.push(B[j]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         mid + j + 1,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -85,7 +85,7 @@ const mergeBalls = async (
     } else if (j > B.length - 1) {
       C.push(A[i]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         low + i,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -97,7 +97,7 @@ const mergeBalls = async (
     } else if (A[i] < B[j]) {
       C.push(A[i]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         low + i,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -109,7 +109,7 @@ const mergeBalls = async (
     } else if (B[j] < A[i]) {
       C.push(B[j]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         mid + j + 1,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -121,7 +121,7 @@ const mergeBalls = async (
     } else if (A[i] == B[j]) {
       C.push(A[i]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         low + i,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -134,7 +134,7 @@ const mergeBalls = async (
 
       C.push(B[j]);
       await visualizePutItAside(
-        unsortedNumbers,
+        array,
         mid + j + 1,
         (k - low) * w + w / 2,
         scene.clientHeight / 2,
@@ -154,7 +154,7 @@ const mergeBalls = async (
   for (let k = 0; k < C.length; k++) {
     if (C.length == length) {
       visualizePutItIn(
-        unsortedNumbers,
+        array,
         low + k,
         k * w + w / 2,
         scene.clientHeight / 2,
@@ -162,7 +162,7 @@ const mergeBalls = async (
       );
     } else {
       await visualizePutItIn(
-        unsortedNumbers,
+        array,
         low + k,
         k * w + w / 2,
         scene.clientHeight / 2,
@@ -172,23 +172,23 @@ const mergeBalls = async (
   }
 
   C.forEach((number, index) => {
-    unsortedNumbers[low + index] = number;
+    array[low + index] = number;
   });
 };
 
 export const visualiseMergeSortWithBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   bars: BarModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   ms = Math.floor(map(length, 2, 120, 2600, 1200) / length);
 
-  await mergeSortWithBarsUtil(unsortedNumbers, 0, length - 1, bars);
+  await mergeSortWithBarsUtil(array, 0, length - 1, bars);
   console.log('Done');
 };
 
 const mergeSortWithBarsUtil = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   bars: BarModel[]
@@ -196,16 +196,16 @@ const mergeSortWithBarsUtil = async (
   if (low < high) {
     var mid = Math.floor((low + high) / 2);
 
-    await mergeSortWithBarsUtil(unsortedNumbers, low, mid, bars);
-    await mergeSortWithBarsUtil(unsortedNumbers, mid + 1, high, bars);
+    await mergeSortWithBarsUtil(array, low, mid, bars);
+    await mergeSortWithBarsUtil(array, mid + 1, high, bars);
 
     await sleep(ms);
-    await mergeBars(unsortedNumbers, low, mid, high, bars);
+    await mergeBars(array, low, mid, high, bars);
   }
 };
 
 const mergeBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   mid: number,
   high: number,
@@ -223,7 +223,7 @@ const mergeBars = async (
     bars[j + 1].color = colors[1];
     await sleep(Math.floor(0.8 * ms));
 
-    if (unsortedNumbers[i] <= unsortedNumbers[j + 1]) {
+    if (array[i] <= array[j + 1]) {
       await sleep(Math.ceil(0.2 * ms));
 
       bars[i].color = colors[3];
@@ -234,24 +234,18 @@ const mergeBars = async (
       bars[j + 1].color = colors[0];
       i++;
     } else {
-      const temp = unsortedNumbers[j + 1];
+      const temp = array[j + 1];
       const tempBar = bars[j + 1];
 
       for (let l = j + 1; l > i + 1; l--) {
-        unsortedNumbers[l] = unsortedNumbers[l - 1];
+        array[l] = array[l - 1];
         bars[l] = bars[l - 1];
       }
-      unsortedNumbers[i + 1] = temp;
+      array[i + 1] = temp;
       bars[i + 1] = tempBar;
       await sleep(ms);
 
-      await visualizeBarsSwap(
-        unsortedNumbers,
-        i,
-        i + 1,
-        bars,
-        Math.floor(0.8 * ms)
-      );
+      await visualizeBarsSwap(array, i, i + 1, bars, Math.floor(0.8 * ms));
 
       bars[i].color = colors[3];
       bars[i + 1].color = colors[3];

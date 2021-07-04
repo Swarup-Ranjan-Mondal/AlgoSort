@@ -11,9 +11,21 @@ import { BallsDisplayComponent } from './components/balls-display/balls-display.
 import { BarsDisplayComponent } from './components/bars-display/bars-display.component';
 import { PartitionWallComponent } from './components/partition-wall/partition-wall.component';
 import { BarComponent } from './components/bar/bar.component';
+import { HamburgerComponent } from './components/hamburger/hamburger.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, OptionListComponent, BallComponent, BallsDisplayComponent, BarsDisplayComponent, PartitionWallComponent, BarComponent],
+  declarations: [
+    AppComponent,
+    OptionListComponent,
+    BallComponent,
+    BallsDisplayComponent,
+    BarsDisplayComponent,
+    PartitionWallComponent,
+    BarComponent,
+    HamburgerComponent,
+    HeaderComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

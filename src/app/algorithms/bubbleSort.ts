@@ -8,17 +8,17 @@ let length: number;
 let ms: number;
 
 export const visualizeBubbleSortWithBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   balls: BallModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
 
   for (let i = 0; i < length - 1; i++) {
     for (let j = 0; j < length - 1 - i; j++) {
       await sleep(2);
 
-      if (unsortedNumbers[j] > unsortedNumbers[j + 1]) {
-        await visualizeSwap(unsortedNumbers, j, j + 1, balls);
+      if (array[j] > array[j + 1]) {
+        await visualizeSwap(array, j, j + 1, balls);
       }
     }
   }
@@ -27,10 +27,10 @@ export const visualizeBubbleSortWithBalls = async (
 };
 
 export const visualizeBubbleSortWithBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   bars: BarModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   ms = Math.floor(map(length, 2, 120, 2800, 1000) / length);
 
   for (let i = 0; i < length - 1; i++) {
@@ -39,14 +39,8 @@ export const visualizeBubbleSortWithBars = async (
       bars[j + 1].color = colors[1];
       await sleep(ms);
 
-      if (unsortedNumbers[j] > unsortedNumbers[j + 1]) {
-        await visualizeBarsSwap(
-          unsortedNumbers,
-          j,
-          j + 1,
-          bars,
-          Math.floor(0.8 * ms)
-        );
+      if (array[j] > array[j + 1]) {
+        await visualizeBarsSwap(array, j, j + 1, bars, Math.floor(0.8 * ms));
       }
 
       bars[j].color = colors[3];

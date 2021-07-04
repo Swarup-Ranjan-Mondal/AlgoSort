@@ -1,4 +1,4 @@
-export const generateUnsortedNumbers = (
+export const generateRandomizedArray = (
   size: number,
   rangeFrom: number,
   rangeTo: number

@@ -12,31 +12,31 @@ let length: number;
 let ms: number;
 
 export const visualizeQuickSortWithBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   balls: BallModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
 
-  await quickSortWithBallsUtil(unsortedNumbers, 0, length - 1, balls);
+  await quickSortWithBallsUtil(array, 0, length - 1, balls);
   console.log('Done');
 };
 
 const quickSortWithBallsUtil = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   balls: BallModel[]
 ) => {
   if (low < high) {
-    let pi = await ballsPartition(unsortedNumbers, low, high, balls);
+    let pi = await ballsPartition(array, low, high, balls);
 
-    await quickSortWithBallsUtil(unsortedNumbers, low, pi - 1, balls);
-    await quickSortWithBallsUtil(unsortedNumbers, pi + 1, high, balls);
+    await quickSortWithBallsUtil(array, low, pi - 1, balls);
+    await quickSortWithBallsUtil(array, pi + 1, high, balls);
   }
 };
 
 const ballsPartition = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   balls: BallModel[]
@@ -46,18 +46,18 @@ const ballsPartition = async (
   }
   drawPartitionWall(length, high);
 
-  let pivot = unsortedNumbers[high],
+  let pivot = array[high],
     index = low - 1;
 
   for (let i = low; i <= high - 1; i++) {
-    if (unsortedNumbers[i] < pivot) {
+    if (array[i] < pivot) {
       index++;
 
-      await visualizeSwap(unsortedNumbers, i, index, balls);
+      await visualizeSwap(array, i, index, balls);
     }
   }
 
-  await visualizeSwap(unsortedNumbers, high, index + 1, balls);
+  await visualizeSwap(array, high, index + 1, balls);
 
   if (low > 0) {
     removePartitionWall(length, low - 1);
@@ -68,41 +68,41 @@ const ballsPartition = async (
 };
 
 export const visualiseQuickSortWithBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   bars: BarModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   ms = Math.floor(map(length, 2, 120, 2700, 1700) / length);
 
-  await quickSortWithBarsUtil(unsortedNumbers, 0, length - 1, bars);
+  await quickSortWithBarsUtil(array, 0, length - 1, bars);
   console.log('Done');
 };
 
 const quickSortWithBarsUtil = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   bars: BarModel[]
 ) => {
   if (low < high) {
-    var pi = await barsPartition(unsortedNumbers, low, high, bars);
+    var pi = await barsPartition(array, low, high, bars);
 
-    await quickSortWithBarsUtil(unsortedNumbers, low, pi - 1, bars);
-    await quickSortWithBarsUtil(unsortedNumbers, pi + 1, high, bars);
+    await quickSortWithBarsUtil(array, low, pi - 1, bars);
+    await quickSortWithBarsUtil(array, pi + 1, high, bars);
   } else if (low === high) {
     bars[low].color = colors[4];
   }
 };
 
 const barsPartition = async (
-  unsortedNumbers: number[],
+  array: number[],
   low: number,
   high: number,
   bars: BarModel[]
 ) => {
   bars[high].color = colors[5];
 
-  let pivot = unsortedNumbers[high];
+  let pivot = array[high];
   let currPos = low;
 
   for (let i = low; i <= high - 1; i++) {
@@ -112,15 +112,9 @@ const barsPartition = async (
     bars[currPos].color = colors[1];
     await sleep(ms);
 
-    if (unsortedNumbers[i] < pivot) {
+    if (array[i] < pivot) {
       if (i !== currPos) {
-        await visualizeBarsSwap(
-          unsortedNumbers,
-          currPos,
-          i,
-          bars,
-          Math.floor(0.8 * ms)
-        );
+        await visualizeBarsSwap(array, currPos, i, bars, Math.floor(0.8 * ms));
       }
 
       bars[i].color = colors[3];
@@ -139,13 +133,7 @@ const barsPartition = async (
   await sleep(ms);
 
   if (currPos !== high) {
-    await visualizeBarsSwap(
-      unsortedNumbers,
-      currPos,
-      high,
-      bars,
-      Math.floor(0.8 * ms)
-    );
+    await visualizeBarsSwap(array, currPos, high, bars, Math.floor(0.8 * ms));
   }
 
   bars[high].color = colors[3];

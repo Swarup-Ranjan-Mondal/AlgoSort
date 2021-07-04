@@ -1,8 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
-import { convertToWordCase, sleep } from './utils/essentials';
+import {
+  convertToWordCase,
+  generateRandomizedArray,
+  sleep,
+} from './utils/essentials';
 
 @Component({
-  selector: 'app-root',
+  selector: 'root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -22,12 +26,13 @@ export class AppComponent implements AfterViewInit {
 
   animationType: string = '';
   sortingType: string = '';
-  unsortedNumbers: number[] = [];
+  array: number[] = [];
   showFullSidebar: boolean = false;
   disabled: boolean = false;
   sortingComplete: boolean = false;
   pendingMinMaxChanges: { min: number; max: number } | null = null;
   convertToWordCase: (string: string) => string = convertToWordCase;
+  generateNewRandomizedArray!: () => void;
   performTheSortingAlgorithm!: () => Promise<void>;
 
   constructor(private cd: ChangeDetectorRef) {}
@@ -55,6 +60,10 @@ export class AppComponent implements AfterViewInit {
     }
   };
 
+  onRandomizeFunctionInit(generateNewRandomizedArray: () => void) {
+    this.generateNewRandomizedArray = generateNewRandomizedArray;
+  }
+
   onSortingFunctionInit(performTheSortingAlgorithm: () => Promise<void>) {
     this.performTheSortingAlgorithm = performTheSortingAlgorithm;
   }
@@ -77,7 +86,11 @@ export class AppComponent implements AfterViewInit {
     this.cd.detectChanges();
   };
 
-  onClick = async (event: MouseEvent) => {
+  onRandomizeButtonClick = (event: MouseEvent) => {
+    this.generateNewRandomizedArray();
+  };
+
+  onVisualizeButtonClick = async (event: MouseEvent) => {
     /* If sorting type is not selected, nothing to be done when the 
     'Visualize' button is clicked. But, if it is selected then all the 
     controls are disabled and sidebar is closed. After performing the 

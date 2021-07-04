@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { convertToWordCase } from 'src/app/utils/essentials';
 
 @Component({
-  selector: 'app-option-list',
+  selector: 'option-list',
   templateUrl: './option-list.component.html',
   styleUrls: ['./option-list.component.scss'],
 })
@@ -18,7 +18,7 @@ export class OptionListComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onClick(event: MouseEvent): void {
+  onMouseDown(event: MouseEvent): void {
     this.active = false;
     let selectedElement = event.target as HTMLElement;
 

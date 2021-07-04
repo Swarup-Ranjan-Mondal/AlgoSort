@@ -39,7 +39,7 @@ export const removePartitionWall = (size: number, i: number) => {
 };
 
 export const visualizeSwap = async (
-  unsortedNumbers: number[],
+  array: number[],
   i: number,
   j: number,
   balls: BallModel[]
@@ -50,7 +50,7 @@ export const visualizeSwap = async (
     [i, j] = [j, i];
   }
 
-  const w = scene.clientWidth / unsortedNumbers.length;
+  const w = scene.clientWidth / array.length;
   const midX = (i + j + 1) * w * 0.5;
   const midY = scene.clientHeight / 2;
 
@@ -79,27 +79,24 @@ export const visualizeSwap = async (
     y = b * Math.sqrt(1 - Math.pow(x / a, 2));
   }
 
-  [unsortedNumbers[i], unsortedNumbers[j]] = [
-    unsortedNumbers[j],
-    unsortedNumbers[i],
-  ];
+  [array[i], array[j]] = [array[j], array[i]];
 
   balls[i] = {
     ...balls[i],
     centerX: midX - a,
     centerY: midY,
-    radius: unsortedNumbers[i],
+    radius: array[i],
   };
   balls[j] = {
     ...balls[j],
     centerX: midX + a,
     centerY: midY,
-    radius: unsortedNumbers[j],
+    radius: array[j],
   };
 };
 
 export const visualizeRelocate = async (
-  unsortedNumbers: number[],
+  array: number[],
   i: number,
   j: number,
   balls: BallModel[]
@@ -108,7 +105,7 @@ export const visualizeRelocate = async (
     return;
   }
 
-  const w = scene.clientWidth / unsortedNumbers.length;
+  const w = scene.clientWidth / array.length;
   const midX = (i + j + 1) * w * 0.5;
   const midY = scene.clientHeight / 2;
 
@@ -137,19 +134,19 @@ export const visualizeRelocate = async (
     ...balls[i],
     centerX: midX - dirX * a,
     centerY: midY,
-    radius: unsortedNumbers[i],
+    radius: array[i],
   };
 };
 
 export const visualizePutItAside = async (
-  unsortedNumbers: number[],
+  array: number[],
   i: number,
   midX: number,
   midY: number,
   balls: BallModel[]
 ) => {
   const ithBall = document.querySelector(`#ball-${i + 1}`) as HTMLElement;
-  const w = scene.clientWidth / unsortedNumbers.length;
+  const w = scene.clientWidth / array.length;
 
   let x = (i + 0.5) * w - midX;
   const a = Math.abs(x);
@@ -179,14 +176,14 @@ export const visualizePutItAside = async (
 };
 
 export const visualizePutItIn = async (
-  unsortedNumbers: number[],
+  array: number[],
   i: number,
   midX: number,
   midY: number,
   balls: BallModel[]
 ) => {
   const ithBall = document.querySelector(`#ball-${i + 1}`) as HTMLElement;
-  const w = scene.clientWidth / unsortedNumbers.length;
+  const w = scene.clientWidth / array.length;
 
   let x = (i + 0.5) * w - midX;
   const a = Math.abs(x);

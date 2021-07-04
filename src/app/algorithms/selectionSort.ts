@@ -8,10 +8,10 @@ let length: number;
 let ms: number;
 
 export const visualizeSelectionSortWithBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   balls: BallModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
 
   for (let i = 0; i < length - 1; i++) {
     let minIndex = i;
@@ -19,21 +19,21 @@ export const visualizeSelectionSortWithBalls = async (
     for (let j = i + 1; j < length; j++) {
       await sleep(2);
 
-      if (unsortedNumbers[j] < unsortedNumbers[minIndex]) {
+      if (array[j] < array[minIndex]) {
         minIndex = j;
       }
     }
 
-    await visualizeSwap(unsortedNumbers, i, minIndex, balls);
+    await visualizeSwap(array, i, minIndex, balls);
   }
 
   console.log('Done');
 };
 export const visualiseSelectionSortWithBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   bars: BarModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   ms = Math.floor(map(length, 2, 120, 2700, 1000) / length);
 
   for (let i = 0; i < length - 1; i++) {
@@ -45,7 +45,7 @@ export const visualiseSelectionSortWithBars = async (
       bars[j].color = colors[1];
       await sleep(Math.floor(0.55 * ms));
 
-      if (unsortedNumbers[j] < unsortedNumbers[minIndex]) {
+      if (array[j] < array[minIndex]) {
         if (minIndex !== i) {
           /* Remove the color of the bar at previous min-index */
           bars[minIndex].color = colors[0];
@@ -63,13 +63,7 @@ export const visualiseSelectionSortWithBars = async (
     }
 
     if (minIndex !== i) {
-      await visualizeBarsSwap(
-        unsortedNumbers,
-        minIndex,
-        i,
-        bars,
-        Math.floor(0.8 * ms)
-      );
+      await visualizeBarsSwap(array, minIndex, i, bars, Math.floor(0.8 * ms));
     }
 
     bars[minIndex].color = colors[3];

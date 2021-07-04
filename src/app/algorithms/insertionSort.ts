@@ -9,18 +9,18 @@ let length: number;
 let ms: number;
 
 export const visualizeInsertionSortWithBalls = async (
-  unsortedNumbers: number[],
+  array: number[],
   balls: BallModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   const w = scene.clientWidth / length;
 
   for (let i = 1; i < length; i++) {
-    let key = unsortedNumbers[i];
+    let key = array[i];
     let j = i - 1;
 
     await visualizePutItAside(
-      unsortedNumbers,
+      array,
       i,
       scene.clientWidth / 2,
       scene.clientHeight / 2,
@@ -28,8 +28,8 @@ export const visualizeInsertionSortWithBalls = async (
     );
     await sleep(2);
 
-    while (j >= 0 && unsortedNumbers[j] > key) {
-      unsortedNumbers[j + 1] = unsortedNumbers[j];
+    while (j >= 0 && array[j] > key) {
+      array[j + 1] = array[j];
 
       balls[j] = {
         ...balls[j],
@@ -43,24 +43,24 @@ export const visualizeInsertionSortWithBalls = async (
     }
 
     await visualizePutItIn(
-      unsortedNumbers,
+      array,
       j + 1,
       scene.clientWidth / 2,
       scene.clientHeight / 2,
       balls
     );
 
-    unsortedNumbers[j + 1] = key;
+    array[j + 1] = key;
   }
 
   console.log('Done');
 };
 
 export const visualizeInsertionSortWithBars = async (
-  unsortedNumbers: number[],
+  array: number[],
   bars: BarModel[]
 ) => {
-  length = unsortedNumbers.length;
+  length = array.length;
   ms = Math.floor(map(length, 2, 120, 2800, 1000) / length);
 
   for (var i = 1; i < length; i++) {
@@ -71,14 +71,8 @@ export const visualizeInsertionSortWithBars = async (
       bars[j].color = colors[1];
       await sleep(ms);
 
-      if (unsortedNumbers[j - 1] > unsortedNumbers[j]) {
-        await visualizeBarsSwap(
-          unsortedNumbers,
-          j - 1,
-          j,
-          bars,
-          Math.floor(0.8 * ms)
-        );
+      if (array[j - 1] > array[j]) {
+        await visualizeBarsSwap(array, j - 1, j, bars, Math.floor(0.8 * ms));
       }
 
       bars[j - 1].color = colors[3];

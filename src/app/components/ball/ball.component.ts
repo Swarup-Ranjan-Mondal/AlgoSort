@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-ball',
+  selector: 'ball',
   templateUrl: './ball.component.html',
   styleUrls: ['./ball.component.scss'],
 })

@@ -4,12 +4,12 @@
     width: sceneWidth + 'px'
   }"
 >
-  <app-bar
+  <bar
     *ngFor="let bar of bars; index as i"
     [barNo]="i + 1"
     [value]="bar.value"
     [width]="bar.width"
     [height]="bar.height"
     [color]="bar.color"
-  ></app-bar>
+  ></bar>
 </div>

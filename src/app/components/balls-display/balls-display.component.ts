@@ -15,7 +15,7 @@ import { visualizeInsertionSortWithBalls } from 'src/app/algorithms/insertionSor
 import { visualizeMergeSortWithBalls } from 'src/app/algorithms/mergeSort';
 import { visualizeQuickSortWithBalls } from 'src/app/algorithms/quickSort';
 import { visualizeSelectionSortWithBalls } from 'src/app/algorithms/selectionSort';
-import { generateUnsortedNumbers } from 'src/app/utils/essentials';
+import { generateRandomizedArray } from 'src/app/utils/essentials';
 
 export let scene: HTMLElement;
 export let walls: WallModel[];
@@ -24,7 +24,7 @@ let scaleBalls: (scaleX: number, scaleY: number) => void;
 let conditionalSetMax: (max: number) => void;
 
 @Component({
-  selector: 'app-balls-display',
+  selector: 'balls-display',
   templateUrl: './balls-display.component.html',
   styleUrls: ['./balls-display.component.scss'],
 })
@@ -33,11 +33,12 @@ export class BallsDisplayComponent implements OnInit {
   @Input() sortingType!: string;
 
   @Output() changeminmax = new EventEmitter<any>();
+  @Output() randomizefunctioninit = new EventEmitter<() => void>();
   @Output() sortingfunctioninit = new EventEmitter<() => Promise<void>>();
 
   min: number = 2;
   max: number = 15;
-  unsortedNumbers: number[] = [];
+  array: number[] = [];
   balls: BallModel[] = [];
   walls: WallModel[] = [];
   scaleX: number = 1;
@@ -95,6 +96,7 @@ export class BallsDisplayComponent implements OnInit {
       min: this.min,
       max: this.max,
     });
+    this.randomizefunctioninit.emit(this.generateNewRandomizedArray);
     this.sortingfunctioninit.emit(this.performTheSortingAlgorithm);
     walls = this.walls;
   }
@@ -113,37 +115,42 @@ export class BallsDisplayComponent implements OnInit {
       array of unsorted numbers is generated and they are visually 
       represened as balls on the screen. */
 
-      this.unsortedNumbers = generateUnsortedNumbers(this.value, 10, 30);
-      this.showNumbersAsBalls();
+      this.array = generateRandomizedArray(this.value, 10, 30);
+      this.showArrayElementsAsBalls();
     }
   }
 
-  showNumbersAsBalls = () => {
-    const w = scene.clientWidth / this.unsortedNumbers.length;
+  showArrayElementsAsBalls(): void {
+    const w = scene.clientWidth / this.array.length;
 
     this.balls = [];
-    this.unsortedNumbers.forEach((number, index) => {
+    this.array.forEach((number, index) => {
       this.balls.push({
         radius: number,
         centerX: (index + 0.5) * w,
         centerY: scene.clientHeight / 2,
       });
     });
+  }
+
+  generateNewRandomizedArray = () => {
+    this.array = generateRandomizedArray(this.value, 10, 30);
+    this.showArrayElementsAsBalls();
   };
 
   performTheSortingAlgorithm = async () => {
     if (this.sortingType.includes('bubble')) {
-      await visualizeBubbleSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeBubbleSortWithBalls(this.array, this.balls);
     } else if (this.sortingType.includes('heap')) {
-      await visualizeHeapSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeHeapSortWithBalls(this.array, this.balls);
     } else if (this.sortingType.includes('insertion')) {
-      await visualizeInsertionSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeInsertionSortWithBalls(this.array, this.balls);
     } else if (this.sortingType.includes('merge')) {
-      await visualizeMergeSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeMergeSortWithBalls(this.array, this.balls);
     } else if (this.sortingType.includes('quick')) {
-      await visualizeQuickSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeQuickSortWithBalls(this.array, this.balls);
     } else if (this.sortingType.includes('selection')) {
-      await visualizeSelectionSortWithBalls(this.unsortedNumbers, this.balls);
+      await visualizeSelectionSortWithBalls(this.array, this.balls);
     }
   };
 }

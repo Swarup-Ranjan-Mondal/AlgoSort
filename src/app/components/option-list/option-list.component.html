@@ -1,10 +1,8 @@
-<div class="options-list {{ active == true ? 'active' : '' }}">
-  <div
-    *ngFor="let option of options"
-    class="option"
-    id="{{ option }}"
-    (click)="onClick($event)"
-  >
+<div
+  class="options-list {{ active == true ? 'active' : '' }}"
+  (mousedown)="onMouseDown($event)"
+>
+  <div *ngFor="let option of options" id="{{ option }}" class="option">
     {{ convertToWordCase(option) }}
   </div>
 </div>
